@@ -1,6 +1,19 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import ParticleText from './ParticleText.jsx';
 import PatternWaves from './PatternWaves.jsx';
+
+const MENU_TITLE = 'Estructuras';
+
+const MODELS = [
+  { title: 'Cloroplasto', href: './Cloroplasto.html' },
+  { title: 'Mitocondria', href: './Mitocondria.html' },
+  { title: 'Núcleo', href: './Nucleo.html' },
+  { title: 'Bicapa lipídica en membrana celular', href: './BicapaLipidica.html' },
+  { title: 'Organelo de la planta celular', href: './OrganeloPlanta.html' },
+  { title: 'Célula animal', href: './CelulaAnimal.html' },
+  { title: 'Procarionte', href: './Procarionte.html' }
+];
 
 function App() {
   return (
@@ -15,30 +28,32 @@ function App() {
         cursorStrength={0.6}
       />
       <main className="menu">
-        <p className="eyebrow">Explora la ciencia en 3D</p>
-        <h1>Modelos para descubrir</h1>
-        <p className="intro">
-          Explora estructuras científicas en tres dimensiones. Elige un modelo
-          para abrir su visor interactivo.
-        </p>
+        <div className="menu-title">
+          <ParticleText
+            text={MENU_TITLE}
+            particleSize={2.2}
+            density={4}
+            color="#d5f1eb"
+            highlightColor="#9bd8d0"
+            fontSize="clamp(4rem, 15vw, 10rem)"
+            fontWeight={800}
+          />
+        </div>
         <section aria-labelledby="models-title">
           <div className="models-heading">
             <h2 id="models-title">Modelos disponibles</h2>
-            <span>1 modelo</span>
+            <span>{MODELS.length} modelos</span>
           </div>
-          <a className="model-card" href="./Cloroplasto.html">
-            <span className="model-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none">
-                <path d="M9 25C9 15.6 15.6 9 25 9s14 5.6 14 14-6.6 16-16 16S9 34.4 9 25Z" stroke="currentColor" strokeWidth="2" />
-                <path d="M16 19c4-5 12-5 17 0M13 25c6-5 16-5 23 0M15 31c6-4 13-4 19 0M19 36c3-2 7-2 10 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
-              </svg>
-            </span>
-            <span className="model-info">
-              <h3>Cloroplasto</h3>
-              <p>Observa en 3D la estructura de este orgánulo vegetal.</p>
-            </span>
-            <span className="model-arrow" aria-hidden="true">→</span>
-          </a>
+          <div className="models-grid">
+            {MODELS.map(model => (
+              <a className="model-card" href={model.href} key={model.href}>
+                <span className="model-info">
+                  <h3>{model.title}</h3>
+                </span>
+                <span className="model-arrow" aria-hidden="true">→</span>
+              </a>
+            ))}
+          </div>
         </section>
       </main>
     </>
@@ -46,3 +61,4 @@ function App() {
 }
 
 createRoot(document.getElementById('root')).render(<App />);
+document.title = MENU_TITLE;
