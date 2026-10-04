@@ -2,7 +2,7 @@
   "name": "sciencemodels-menu",
   "private": true,
   "scripts": {
-    "build": "esbuild src/main.jsx --bundle --minify --format=iife --outfile=menu.bundle.js"
+    "build": "node scripts/build-menu.mjs"
   },
   "dependencies": {
     "ogl": "^1.0.11",

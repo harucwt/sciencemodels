@@ -2,7 +2,7 @@
 
 ## Cambiar el título del menú
 
-Edita la constante `MENU_TITLE` en `src/main.jsx` y ejecuta `npm run build` para actualizar la página.
+Edita el elemento `<title>` en `index.html`; ese mismo texto se muestra en la parte superior del menú. El menú y sus efectos se guardan dentro de `index.html`. Ejecuta `npm run build` después de editar el código fuente para volver a integrarlos.
 
 ## Añadir modelos
 

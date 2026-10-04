@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import ParticleText from './ParticleText.jsx';
 import PatternWaves from './PatternWaves.jsx';
 
-const MENU_TITLE = 'Estructuras';
+const MENU_TITLE = document.title || 'Estructuras';
 
 const MODELS = [
   { title: 'Cloroplasto', href: './Cloroplasto.html' },
