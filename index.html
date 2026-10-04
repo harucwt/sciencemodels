@@ -82,7 +82,6 @@
             margin: 0 auto 20px;
             overflow: hidden;
             border-radius: 18px;
-            background: linear-gradient(90deg, rgb(16 24 32 / 96%), rgb(16 24 32 / 84%));
         }
 
         .models-heading {
@@ -110,6 +109,8 @@
         }
 
         .model-card {
+            position: relative;
+            isolation: isolate;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -117,21 +118,71 @@
             min-width: 0;
             min-height: 88px;
             padding: 20px;
-            border: 1px solid rgb(226 242 243 / 22%);
+            overflow: hidden;
+            border: 1px solid rgb(226 242 243 / 18%);
             border-radius: 16px;
-            background: rgb(16 29 37 / 78%);
+            background: rgb(16 29 37 / 20%);
             color: inherit;
             text-decoration: none;
-            -webkit-backdrop-filter: blur(14px);
-            backdrop-filter: blur(14px);
-            transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+            -webkit-backdrop-filter: blur(8px) saturate(1.5);
+            backdrop-filter: blur(8px) saturate(1.5);
+            box-shadow:
+                inset 0 1px 0 rgb(255 255 255 / 5%),
+                0 8px 24px rgb(0 0 0 / 12%);
+            transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        .model-card::before,
+        .model-card::after {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+            content: "";
+            opacity: 0;
+            transition: opacity 180ms ease;
+        }
+
+        .model-card::before {
+            inset: 0;
+            background: radial-gradient(
+                ellipse at var(--shine-x, 50%) var(--shine-y, 50%),
+                rgb(255 255 255 / 16%),
+                transparent 58%
+            );
+        }
+
+        .model-card::after {
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: conic-gradient(
+                from var(--shine-angle, 135deg),
+                transparent 0deg 125deg,
+                rgb(255 255 255 / 90%) 150deg,
+                rgb(155 216 208 / 85%) 165deg,
+                transparent 195deg 360deg
+            );
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
         }
 
         .model-card:hover,
         .model-card:focus-visible {
             transform: translateY(-3px);
-            border-color: #9bd8d0;
-            background: rgb(24 44 52 / 90%);
+            border-color: rgb(226 242 243 / 38%);
+            background: rgb(16 29 37 / 28%);
+            box-shadow:
+                inset 0 1px 0 rgb(255 255 255 / 8%),
+                0 12px 28px rgb(0 0 0 / 18%);
+        }
+
+        .model-card:hover::before,
+        .model-card:hover::after,
+        .model-card:focus-visible::before,
+        .model-card:focus-visible::after {
+            opacity: 1;
         }
 
         .model-card:focus-visible {
@@ -140,6 +191,8 @@
         }
 
         .model-info {
+            position: relative;
+            z-index: 1;
             min-width: 0;
         }
 
@@ -150,6 +203,8 @@
         }
 
         .model-arrow {
+            position: relative;
+            z-index: 1;
             flex: 0 0 auto;
             color: #9bd8d0;
             font-size: 1.6rem;
@@ -473,7 +528,7 @@ void main() {
   }
   fragColor = ink + background * (1.0 - ink.a);
 }
-`,Wp=({preset:t="silk",pattern:e,wave:l,spacing:n,markSize:a,depth:i,light:u,shine:c,contrast:f,speed:s,scale:h,direction:g,color:r="#ffffff",backgroundColor:o="#000000",opacity:p=1,fade:E="edges",fadeSize:T=.5,characters:d=Hv,interactive:m=!0,cursorSize:v=50,cursorStrength:y=.6,intro:S=!0,paused:b=!1,className:_="",style:M})=>{let C=(0,bl.useRef)(null),z=(0,bl.useRef)(null),X=(0,bl.useRef)(null),et=Rv[t]||Rv.silk,B=(ct,Dt)=>ct??et[Dt],N=(0,bl.useMemo)(()=>({color:Uv(r,[1,1,1,1]),background:Uv(o,[0,0,0,1])}),[r,o]);return(0,bl.useEffect)(()=>{z.current={...N,pattern:B(e,"pattern"),wave:B(l,"wave"),spacing:B(n,"spacing"),markSize:B(a,"markSize"),depth:B(i,"depth"),light:B(u,"light"),shine:B(c,"shine"),contrast:B(f,"contrast"),speed:B(s,"speed"),scale:B(h,"scale"),direction:B(g,"direction"),opacity:p,fade:E,fadeSize:T,characters:d,interactive:m,cursorSize:v,cursorStrength:y,intro:S,paused:b},X.current?.()}),(0,bl.useEffect)(()=>{let ct=C.current;if(!ct)return;let Dt=new Ii({alpha:!0,premultipliedAlpha:!0,antialias:!1,depth:!1}),O=Dt.gl;if(!Dt.isWebgl2){O.getExtension("WEBGL_lose_context")?.loseContext();return}O.clearColor(0,0,0,0);let ye=O.canvas;ye.style.display="block",ye.style.width="100%",ye.style.height="100%",ye.setAttribute("aria-hidden","true"),ct.appendChild(ye);let Qa=new $i(O),wn=new xl(O),nf=!!O.getExtension("EXT_color_buffer_float"),Xe=R=>{O.deleteFramebuffer(R.buffer),O.deleteTexture(R.texture.texture)},ki=(R,A)=>new Va(O,{width:R,height:A,depth:!1,minFilter:O.NEAREST,magFilter:O.NEAREST}),Yn=(R,A)=>new Va(O,{width:R,height:A,depth:!1,type:O.HALF_FLOAT,format:O.RGBA,internalFormat:O.RGBA16F,minFilter:O.LINEAR,magFilter:O.LINEAR}),Re=ki(1,1),pt=null,Ln=new xl(O,{generateMipmaps:!0,minFilter:O.LINEAR_MIPMAP_LINEAR,magFilter:O.LINEAR,flipY:!1}),ft={uSize:{value:[1,1]},uDpr:{value:1},uOrigin:{value:[0,0]},uPitch:{value:[1,1]},uWave:{value:0},uTime:{value:0},uUnit:{value:Dv},uHeading:{value:[1,0]},uAmp:{value:0},uDepth:{value:.5},uLight:{value:[0,0,1]},uShine:{value:.8},uContrast:{value:1},uInk:{value:0},uOpacity:{value:1},uFade:{value:0},uFadeSize:{value:.5},uAppear:{value:0},tRipple:{value:wn},uRipple:{value:0}},Pi=new Bn(O,{geometry:Qa,program:new Un(O,{vertex:w0,fragment:Fp,uniforms:ft,depthTest:!1,depthWrite:!1})}),De={tState:{value:wn},uTexel:{value:[1,1]},uSize:{value:[1,1]},uFrom:{value:[0,0]},uTo:{value:[0,0]},uRadius:{value:40},uImpulse:{value:0},uDamping:{value:.975}},dt=new Bn(O,{geometry:Qa,program:new Un(O,{vertex:w0,fragment:Kp,uniforms:De,depthTest:!1,depthWrite:!1})}),j={tField:{value:Re.texture},tAtlas:{value:Ln},uOrigin:{value:[0,0]},uPitch:{value:[1,1]},uGrid:{value:[1,1]},uPattern:{value:0},uMarkSize:{value:.9},uStroke:{value:2},uColor:{value:[1,1,1]},uAccent:{value:[1,1,1]},uBackground:{value:[0,0,0,1]},uAtlas:{value:[1,1,0]}},lt=new Bn(O,{geometry:Qa,program:new Un(O,{vertex:w0,fragment:Jp,uniforms:j,depthTest:!1,depthWrite:!1})}),I=window.matchMedia?.("(prefers-reduced-motion: reduce)").matches??!1,st=1,mt=1,Et=0,rt=performance.now(),pe=0,It=0,Qt=!0,qn=!0,ln=!0,tu=0,ll=!1,Xn=0,nn="",w={x:0,y:0,inside:!1,placed:!1,lastX:0,lastY:0,burst:0},af=()=>{if(!nf)return;let R=Wt(Math.ceil(st/Cv),4,512),A=Wt(Math.ceil(mt/Cv),4,512);pt&&pt.width===R&&pt.height===A||(pt&&(Xe(pt.read),Xe(pt.write)),pt={width:R,height:A,read:Yn(R,A),write:Yn(R,A)},ll=!1)},uf=()=>{pt&&([pt.read,pt.write].forEach(R=>{Dt.bindFramebuffer(R),O.viewport(0,0,R.width,R.height),O.clear(O.COLOR_BUFFER_BIT)}),Dt.bindFramebuffer())},Za=R=>{if(R.characters===nn)return;nn=R.characters;let A=jp(R.characters);A&&(Ln.image=A.canvas,j.uAtlas.value=[A.columns,A.lines,A.count])},ja=()=>{st=Math.max(1,ct.clientWidth),mt=Math.max(1,ct.clientHeight),Dt.dpr=Math.min(window.devicePixelRatio||1,2,Math.sqrt(Qp/(st*mt))),Dt.setSize(st,mt),af(),ln=!0,Ce()},cf=(R,A,Ee)=>{Xn=Math.min(Xn+Ee*Vp,4);let nl=Wt(A.cursorStrength,0,1),sf=Math.hypot(w.x-w.lastX,w.y-w.lastY),Qn=(w.inside?Math.min(sf/14,1)*.35*nl:0)+w.burst*nl;for(w.burst=0,De.uTexel.value=[1/R.width,1/R.height],De.uSize.value=[st,mt],De.uFrom.value=[w.lastX,mt-w.lastY],De.uTo.value=[w.x,mt-w.y],De.uRadius.value=Wt(A.cursorSize,8,400);Xn>=1;){Xn-=1,De.tState.value=R.read.texture,De.uImpulse.value=Qn,Dt.render({scene:dt,target:R.write,clear:!1});let rf=R.read;R.read=R.write,R.write=rf,Qn=0}w.lastX=w.x,w.lastY=w.y},eu=R=>{if(Et=0,!qn)return;let A=z.current,Ee=Math.min(.05,Math.max(1/240,(R-rt)/1e3));if(rt=R,!A)return;let nl=!A.paused&&!I&&A.speed!==0;nl&&(pe+=Ee*A.speed),It=A.intro&&!I?Math.min(1,It+Ee/Zp):1;let sf=1-Math.pow(1-Wt(It/.75,0,1),3),Qn=Wt((It-.1)/.9,0,1),rf=Qn*Qn*(3-2*Qn),hf=A.interactive&&!I&&!!pt&&A.cursorStrength>0;hf&&w.inside&&!w.placed&&(w.lastX=w.x,w.lastY=w.y,w.placed=!0),hf&&(w.inside||w.burst>0)&&(tu=R+5e3);let Y0=hf&&R<tu;Y0&&pt?(cf(pt,A,Ee),ll=!0):ll&&(uf(),ll=!1);let au=Lp[A.pattern]??0;au===4&&Za(A);let of=O.canvas.width,L0=O.canvas.height,iu=of/st,an=Math.max(4,Math.round(Wt(A.spacing,4,120)*iu)),uu=au===3?Math.max(2,Math.round(an/4)):an,cu=Math.min(4096,Math.ceil(of/uu)+1),fu=Math.min(4096,Math.ceil(L0/an)+2),q0=[Math.floor((of-cu*uu)/2),Math.floor((L0-fu*an)/2)];(Re.width!==cu||Re.height!==fu)&&(Xe(Re),Re=ki(cu,fu),j.tField.value=Re.texture);let X0=A.direction*Math.PI/180,G0=(A.direction+180+Wt(A.light,-90,90))*Math.PI/180,df=A.background,mf=df[3]>.02?H0(A.color)<H0(df):H0(A.color)<.5;ft.uSize.value=[st,mt],ft.uDpr.value=iu,ft.uOrigin.value=q0,ft.uPitch.value=[uu,an],ft.uWave.value=qp[A.wave]??0,ft.uTime.value=pe,ft.uUnit.value=Dv*Wt(A.scale,.2,5),ft.uHeading.value=[Math.cos(X0),Math.sin(X0)],ft.uAmp.value=rf,ft.uDepth.value=Wt(A.depth,0,1.5),ft.uLight.value=[Math.cos(G0)*.78,Math.sin(G0)*.78,.62],ft.uShine.value=Wt(A.shine,0,2),ft.uContrast.value=Wt(A.contrast,.3,3),ft.uInk.value=mf?1:0,ft.uOpacity.value=Wt(A.opacity,0,1),ft.uFade.value=Xp[A.fade]??0,ft.uFadeSize.value=Wt(A.fadeSize,.05,1),ft.uAppear.value=sf,ft.tRipple.value=pt&&ll?pt.read.texture:wn,ft.uRipple.value=ll?.32:0,Dt.render({scene:Pi,target:Re}),j.uOrigin.value=q0,j.uPitch.value=[uu,an],j.uGrid.value=[cu,fu],j.uPattern.value=au,j.uMarkSize.value=Wt(A.markSize,.05,1),j.uStroke.value=au===3?.9*iu:Math.max(1.1*iu,an*.08);let Xv=mf?0:1,Gv=mf?.35:.55;j.uColor.value=A.color.slice(0,3),j.uAccent.value=A.color.slice(0,3).map(V0=>V0+(Xv-V0)*Gv),j.uBackground.value=df,Dt.render({scene:lt}),ln=!1,Qt&&(nl||It<1||Y0||ln)&&(Et=requestAnimationFrame(eu))},Ce=()=>{Et||!Qt||!qn||(rt=performance.now(),Et=requestAnimationFrame(eu))},Gn=R=>{let A=ct.getBoundingClientRect(),Ee=R.clientX-A.left,nl=R.clientY-A.top;return{x:Ee,y:nl,inside:Ee>=0&&nl>=0&&Ee<=A.width&&nl<=A.height}},ff=R=>{let A=Gn(R);w.x=A.x,w.y=A.y,A.inside!==w.inside&&(w.placed=!1),w.inside=A.inside,A.inside&&Ce()},k=R=>{let A=Gn(R);A.inside&&(w.x=A.x,w.y=A.y,w.inside||(w.lastX=A.x,w.lastY=A.y),w.burst=1.2,Ce())},$t=()=>{w.inside=!1,w.placed=!1,Ce()},Ue=R=>{R.relatedTarget||$t()},Vn=R=>{R.pointerType==="touch"&&$t()},lu=()=>{document.hidden||Ce()};window.addEventListener("pointermove",ff,{passive:!0}),window.addEventListener("pointerdown",k,{passive:!0}),window.addEventListener("pointerout",Ue,{passive:!0}),window.addEventListener("pointerup",Vn,{passive:!0}),window.addEventListener("blur",$t),document.addEventListener("visibilitychange",lu);let nu=new ResizeObserver(ja);nu.observe(ct);let Fa=new IntersectionObserver(([R])=>{Qt=R.isIntersecting,Ce()});return Fa.observe(ct),X.current=()=>{ln=!0,Ce()},ja(),()=>{qn=!1,Qt=!1,cancelAnimationFrame(Et),nu.disconnect(),Fa.disconnect(),window.removeEventListener("pointermove",ff),window.removeEventListener("pointerdown",k),window.removeEventListener("pointerout",Ue),window.removeEventListener("pointerup",Vn),window.removeEventListener("blur",$t),document.removeEventListener("visibilitychange",lu),X.current=null,pt&&(Xe(pt.read),Xe(pt.write)),Xe(Re),O.deleteTexture(Ln.texture),O.getExtension("WEBGL_lose_context")?.loseContext(),ye.parentNode&&ye.parentNode.removeChild(ye)}},[]),Bv.default.createElement("div",{ref:C,className:`pattern-waves ${_}`.trim(),style:M})},wv=Wp;var qv=document.title||"Estructuras",Yv=[{title:"Cloroplasto",href:"./Cloroplasto.html"},{title:"Mitocondria",href:"./Mitocondria.html"},{title:"N\xFAcleo",href:"./Nucleo.html"},{title:"Bicapa lip\xEDdica en membrana celular",href:"./BicapaLipidica.html"},{title:"Organelo de la planta celular",href:"./OrganeloPlanta.html"},{title:"C\xE9lula animal",href:"./CelulaAnimal.html"},{title:"Procarionte",href:"./Procarionte.html"}];function Ip(){return qt.default.createElement(qt.default.Fragment,null,qt.default.createElement(wv,{preset:"silk",color:"#d5f1eb",backgroundColor:"#101820",fade:"edges",interactive:!0,cursorSize:50,cursorStrength:.6}),qt.default.createElement("main",{className:"menu"},qt.default.createElement("div",{className:"menu-title"},qt.default.createElement(mg,{text:qv,particleSize:2.2,density:4,color:"#d5f1eb",highlightColor:"#9bd8d0",fontSize:"clamp(4rem, 15vw, 10rem)",fontWeight:800})),qt.default.createElement("section",{"aria-labelledby":"models-title"},qt.default.createElement("div",{className:"models-heading"},qt.default.createElement("h2",{id:"models-title"},"Modelos disponibles"),qt.default.createElement("span",null,Yv.length," modelos")),qt.default.createElement("div",{className:"models-grid"},Yv.map(t=>qt.default.createElement("a",{className:"model-card",href:t.href,key:t.href},qt.default.createElement("span",{className:"model-info"},qt.default.createElement("h3",null,t.title)),qt.default.createElement("span",{className:"model-arrow","aria-hidden":"true"},"\u2192")))))))}(0,Lv.createRoot)(document.getElementById("root")).render(qt.default.createElement(Ip,null));document.title=qv;})();
+`,Wp=({preset:t="silk",pattern:e,wave:l,spacing:n,markSize:a,depth:i,light:u,shine:c,contrast:f,speed:s,scale:h,direction:g,color:r="#ffffff",backgroundColor:o="#000000",opacity:p=1,fade:E="edges",fadeSize:T=.5,characters:d=Hv,interactive:m=!0,cursorSize:v=50,cursorStrength:y=.6,intro:S=!0,paused:b=!1,className:_="",style:M})=>{let C=(0,bl.useRef)(null),z=(0,bl.useRef)(null),X=(0,bl.useRef)(null),et=Rv[t]||Rv.silk,B=(ct,Dt)=>ct??et[Dt],N=(0,bl.useMemo)(()=>({color:Uv(r,[1,1,1,1]),background:Uv(o,[0,0,0,1])}),[r,o]);return(0,bl.useEffect)(()=>{z.current={...N,pattern:B(e,"pattern"),wave:B(l,"wave"),spacing:B(n,"spacing"),markSize:B(a,"markSize"),depth:B(i,"depth"),light:B(u,"light"),shine:B(c,"shine"),contrast:B(f,"contrast"),speed:B(s,"speed"),scale:B(h,"scale"),direction:B(g,"direction"),opacity:p,fade:E,fadeSize:T,characters:d,interactive:m,cursorSize:v,cursorStrength:y,intro:S,paused:b},X.current?.()}),(0,bl.useEffect)(()=>{let ct=C.current;if(!ct)return;let Dt=new Ii({alpha:!0,premultipliedAlpha:!0,antialias:!1,depth:!1}),O=Dt.gl;if(!Dt.isWebgl2){O.getExtension("WEBGL_lose_context")?.loseContext();return}O.clearColor(0,0,0,0);let ye=O.canvas;ye.style.display="block",ye.style.width="100%",ye.style.height="100%",ye.setAttribute("aria-hidden","true"),ct.appendChild(ye);let Qa=new $i(O),wn=new xl(O),nf=!!O.getExtension("EXT_color_buffer_float"),Xe=R=>{O.deleteFramebuffer(R.buffer),O.deleteTexture(R.texture.texture)},ki=(R,A)=>new Va(O,{width:R,height:A,depth:!1,minFilter:O.NEAREST,magFilter:O.NEAREST}),Yn=(R,A)=>new Va(O,{width:R,height:A,depth:!1,type:O.HALF_FLOAT,format:O.RGBA,internalFormat:O.RGBA16F,minFilter:O.LINEAR,magFilter:O.LINEAR}),Re=ki(1,1),pt=null,Ln=new xl(O,{generateMipmaps:!0,minFilter:O.LINEAR_MIPMAP_LINEAR,magFilter:O.LINEAR,flipY:!1}),ft={uSize:{value:[1,1]},uDpr:{value:1},uOrigin:{value:[0,0]},uPitch:{value:[1,1]},uWave:{value:0},uTime:{value:0},uUnit:{value:Dv},uHeading:{value:[1,0]},uAmp:{value:0},uDepth:{value:.5},uLight:{value:[0,0,1]},uShine:{value:.8},uContrast:{value:1},uInk:{value:0},uOpacity:{value:1},uFade:{value:0},uFadeSize:{value:.5},uAppear:{value:0},tRipple:{value:wn},uRipple:{value:0}},Pi=new Bn(O,{geometry:Qa,program:new Un(O,{vertex:w0,fragment:Fp,uniforms:ft,depthTest:!1,depthWrite:!1})}),De={tState:{value:wn},uTexel:{value:[1,1]},uSize:{value:[1,1]},uFrom:{value:[0,0]},uTo:{value:[0,0]},uRadius:{value:40},uImpulse:{value:0},uDamping:{value:.975}},dt=new Bn(O,{geometry:Qa,program:new Un(O,{vertex:w0,fragment:Kp,uniforms:De,depthTest:!1,depthWrite:!1})}),j={tField:{value:Re.texture},tAtlas:{value:Ln},uOrigin:{value:[0,0]},uPitch:{value:[1,1]},uGrid:{value:[1,1]},uPattern:{value:0},uMarkSize:{value:.9},uStroke:{value:2},uColor:{value:[1,1,1]},uAccent:{value:[1,1,1]},uBackground:{value:[0,0,0,1]},uAtlas:{value:[1,1,0]}},lt=new Bn(O,{geometry:Qa,program:new Un(O,{vertex:w0,fragment:Jp,uniforms:j,depthTest:!1,depthWrite:!1})}),I=window.matchMedia?.("(prefers-reduced-motion: reduce)").matches??!1,st=1,mt=1,Et=0,rt=performance.now(),pe=0,It=0,Qt=!0,qn=!0,ln=!0,tu=0,ll=!1,Xn=0,nn="",w={x:0,y:0,inside:!1,placed:!1,lastX:0,lastY:0,burst:0},af=()=>{if(!nf)return;let R=Wt(Math.ceil(st/Cv),4,512),A=Wt(Math.ceil(mt/Cv),4,512);pt&&pt.width===R&&pt.height===A||(pt&&(Xe(pt.read),Xe(pt.write)),pt={width:R,height:A,read:Yn(R,A),write:Yn(R,A)},ll=!1)},uf=()=>{pt&&([pt.read,pt.write].forEach(R=>{Dt.bindFramebuffer(R),O.viewport(0,0,R.width,R.height),O.clear(O.COLOR_BUFFER_BIT)}),Dt.bindFramebuffer())},Za=R=>{if(R.characters===nn)return;nn=R.characters;let A=jp(R.characters);A&&(Ln.image=A.canvas,j.uAtlas.value=[A.columns,A.lines,A.count])},ja=()=>{st=Math.max(1,ct.clientWidth),mt=Math.max(1,ct.clientHeight),Dt.dpr=Math.min(window.devicePixelRatio||1,2,Math.sqrt(Qp/(st*mt))),Dt.setSize(st,mt),af(),ln=!0,Ce()},cf=(R,A,Ee)=>{Xn=Math.min(Xn+Ee*Vp,4);let nl=Wt(A.cursorStrength,0,1),sf=Math.hypot(w.x-w.lastX,w.y-w.lastY),Qn=(w.inside?Math.min(sf/14,1)*.35*nl:0)+w.burst*nl;for(w.burst=0,De.uTexel.value=[1/R.width,1/R.height],De.uSize.value=[st,mt],De.uFrom.value=[w.lastX,mt-w.lastY],De.uTo.value=[w.x,mt-w.y],De.uRadius.value=Wt(A.cursorSize,8,400);Xn>=1;){Xn-=1,De.tState.value=R.read.texture,De.uImpulse.value=Qn,Dt.render({scene:dt,target:R.write,clear:!1});let rf=R.read;R.read=R.write,R.write=rf,Qn=0}w.lastX=w.x,w.lastY=w.y},eu=R=>{if(Et=0,!qn)return;let A=z.current,Ee=Math.min(.05,Math.max(1/240,(R-rt)/1e3));if(rt=R,!A)return;let nl=!A.paused&&!I&&A.speed!==0;nl&&(pe+=Ee*A.speed),It=A.intro&&!I?Math.min(1,It+Ee/Zp):1;let sf=1-Math.pow(1-Wt(It/.75,0,1),3),Qn=Wt((It-.1)/.9,0,1),rf=Qn*Qn*(3-2*Qn),hf=A.interactive&&!I&&!!pt&&A.cursorStrength>0;hf&&w.inside&&!w.placed&&(w.lastX=w.x,w.lastY=w.y,w.placed=!0),hf&&(w.inside||w.burst>0)&&(tu=R+5e3);let Y0=hf&&R<tu;Y0&&pt?(cf(pt,A,Ee),ll=!0):ll&&(uf(),ll=!1);let au=Lp[A.pattern]??0;au===4&&Za(A);let of=O.canvas.width,L0=O.canvas.height,iu=of/st,an=Math.max(4,Math.round(Wt(A.spacing,4,120)*iu)),uu=au===3?Math.max(2,Math.round(an/4)):an,cu=Math.min(4096,Math.ceil(of/uu)+1),fu=Math.min(4096,Math.ceil(L0/an)+2),q0=[Math.floor((of-cu*uu)/2),Math.floor((L0-fu*an)/2)];(Re.width!==cu||Re.height!==fu)&&(Xe(Re),Re=ki(cu,fu),j.tField.value=Re.texture);let X0=A.direction*Math.PI/180,G0=(A.direction+180+Wt(A.light,-90,90))*Math.PI/180,df=A.background,mf=df[3]>.02?H0(A.color)<H0(df):H0(A.color)<.5;ft.uSize.value=[st,mt],ft.uDpr.value=iu,ft.uOrigin.value=q0,ft.uPitch.value=[uu,an],ft.uWave.value=qp[A.wave]??0,ft.uTime.value=pe,ft.uUnit.value=Dv*Wt(A.scale,.2,5),ft.uHeading.value=[Math.cos(X0),Math.sin(X0)],ft.uAmp.value=rf,ft.uDepth.value=Wt(A.depth,0,1.5),ft.uLight.value=[Math.cos(G0)*.78,Math.sin(G0)*.78,.62],ft.uShine.value=Wt(A.shine,0,2),ft.uContrast.value=Wt(A.contrast,.3,3),ft.uInk.value=mf?1:0,ft.uOpacity.value=Wt(A.opacity,0,1),ft.uFade.value=Xp[A.fade]??0,ft.uFadeSize.value=Wt(A.fadeSize,.05,1),ft.uAppear.value=sf,ft.tRipple.value=pt&&ll?pt.read.texture:wn,ft.uRipple.value=ll?.32:0,Dt.render({scene:Pi,target:Re}),j.uOrigin.value=q0,j.uPitch.value=[uu,an],j.uGrid.value=[cu,fu],j.uPattern.value=au,j.uMarkSize.value=Wt(A.markSize,.05,1),j.uStroke.value=au===3?.9*iu:Math.max(1.1*iu,an*.08);let Xv=mf?0:1,Gv=mf?.35:.55;j.uColor.value=A.color.slice(0,3),j.uAccent.value=A.color.slice(0,3).map(V0=>V0+(Xv-V0)*Gv),j.uBackground.value=df,Dt.render({scene:lt}),ln=!1,Qt&&(nl||It<1||Y0||ln)&&(Et=requestAnimationFrame(eu))},Ce=()=>{Et||!Qt||!qn||(rt=performance.now(),Et=requestAnimationFrame(eu))},Gn=R=>{let A=ct.getBoundingClientRect(),Ee=R.clientX-A.left,nl=R.clientY-A.top;return{x:Ee,y:nl,inside:Ee>=0&&nl>=0&&Ee<=A.width&&nl<=A.height}},ff=R=>{let A=Gn(R);w.x=A.x,w.y=A.y,A.inside!==w.inside&&(w.placed=!1),w.inside=A.inside,A.inside&&Ce()},k=R=>{let A=Gn(R);A.inside&&(w.x=A.x,w.y=A.y,w.inside||(w.lastX=A.x,w.lastY=A.y),w.burst=1.2,Ce())},$t=()=>{w.inside=!1,w.placed=!1,Ce()},Ue=R=>{R.relatedTarget||$t()},Vn=R=>{R.pointerType==="touch"&&$t()},lu=()=>{document.hidden||Ce()};window.addEventListener("pointermove",ff,{passive:!0}),window.addEventListener("pointerdown",k,{passive:!0}),window.addEventListener("pointerout",Ue,{passive:!0}),window.addEventListener("pointerup",Vn,{passive:!0}),window.addEventListener("blur",$t),document.addEventListener("visibilitychange",lu);let nu=new ResizeObserver(ja);nu.observe(ct);let Fa=new IntersectionObserver(([R])=>{Qt=R.isIntersecting,Ce()});return Fa.observe(ct),X.current=()=>{ln=!0,Ce()},ja(),()=>{qn=!1,Qt=!1,cancelAnimationFrame(Et),nu.disconnect(),Fa.disconnect(),window.removeEventListener("pointermove",ff),window.removeEventListener("pointerdown",k),window.removeEventListener("pointerout",Ue),window.removeEventListener("pointerup",Vn),window.removeEventListener("blur",$t),document.removeEventListener("visibilitychange",lu),X.current=null,pt&&(Xe(pt.read),Xe(pt.write)),Xe(Re),O.deleteTexture(Ln.texture),O.getExtension("WEBGL_lose_context")?.loseContext(),ye.parentNode&&ye.parentNode.removeChild(ye)}},[]),Bv.default.createElement("div",{ref:C,className:`pattern-waves ${_}`.trim(),style:M})},wv=Wp;var qv=document.title||"Estructuras",Yv=[{title:"Cloroplasto",href:"./Cloroplasto.html"},{title:"Mitocondria",href:"./Mitocondria.html"},{title:"N\xFAcleo",href:"./Nucleo.html"},{title:"Bicapa lip\xEDdica en membrana celular",href:"./BicapaLipidica.html"},{title:"Organelo de la planta celular",href:"./OrganeloPlanta.html"},{title:"C\xE9lula animal",href:"./CelulaAnimal.html"},{title:"Procarionte",href:"./Procarionte.html"}];function Ip(){return qt.default.createElement(qt.default.Fragment,null,qt.default.createElement(wv,{preset:"silk",color:"#d5f1eb",backgroundColor:"#101820",fade:"edges",interactive:!0,cursorSize:50,cursorStrength:.6}),qt.default.createElement("main",{className:"menu"},qt.default.createElement("div",{className:"menu-title"},qt.default.createElement(mg,{text:qv,particleSize:2.2,density:4,color:"#d5f1eb",highlightColor:"#9bd8d0",fontSize:"clamp(4rem, 15vw, 10rem)",fontWeight:800})),qt.default.createElement("section",{"aria-labelledby":"models-title"},qt.default.createElement("div",{className:"models-heading"},qt.default.createElement("h2",{id:"models-title"},"Modelos disponibles"),qt.default.createElement("span",null,Yv.length," modelos")),qt.default.createElement("div",{className:"models-grid"},Yv.map(t=>qt.default.createElement("a",{className:"model-card",href:t.href,key:t.href,onPointerMove:e=>{let l=e.currentTarget,n=l.getBoundingClientRect(),a=e.clientX-n.left,i=e.clientY-n.top,u=Math.atan2(n.height/2-i,a-n.width/2)*(180/Math.PI);l.style.setProperty("--shine-x",`${a/n.width*100}%`),l.style.setProperty("--shine-y",`${i/n.height*100}%`),l.style.setProperty("--shine-angle",`${u}deg`)}},qt.default.createElement("span",{className:"model-info"},qt.default.createElement("h3",null,t.title)),qt.default.createElement("span",{className:"model-arrow","aria-hidden":"true"},"\u2192")))))))}(0,Lv.createRoot)(document.getElementById("root")).render(qt.default.createElement(Ip,null));document.title=qv;})();
 /*! Bundled license information:
 
 react/cjs/react.production.js:

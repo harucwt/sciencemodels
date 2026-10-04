@@ -46,7 +46,21 @@ function App() {
           </div>
           <div className="models-grid">
             {MODELS.map(model => (
-              <a className="model-card" href={model.href} key={model.href}>
+              <a
+                className="model-card"
+                href={model.href}
+                key={model.href}
+                onPointerMove={event => {
+                  const card = event.currentTarget;
+                  const rect = card.getBoundingClientRect();
+                  const x = event.clientX - rect.left;
+                  const y = event.clientY - rect.top;
+                  const angle = Math.atan2(rect.height / 2 - y, x - rect.width / 2) * (180 / Math.PI);
+                  card.style.setProperty('--shine-x', `${(x / rect.width) * 100}%`);
+                  card.style.setProperty('--shine-y', `${(y / rect.height) * 100}%`);
+                  card.style.setProperty('--shine-angle', `${angle}deg`);
+                }}
+              >
                 <span className="model-info">
                   <h3>{model.title}</h3>
                 </span>
