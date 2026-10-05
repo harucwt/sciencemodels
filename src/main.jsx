@@ -31,10 +31,10 @@ function App() {
         <div className="menu-title">
           <ParticleText
             text={MENU_TITLE}
-            particleSize={2.2}
-            density={4}
-            color="#d5f1eb"
-            highlightColor="#9bd8d0"
+            particleSize={3}
+            density={2}
+            color="#65ffe1"
+            highlightColor="#ffffff"
             fontSize="clamp(4rem, 15vw, 10rem)"
             fontWeight={800}
           />
