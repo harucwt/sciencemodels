@@ -1,2 +1,3 @@
-# Modelos de ciencias en 3D
-s
+# :V
+Discord: 4horror.
+guns: https://guns.lol/harucwt
