@@ -22,6 +22,19 @@ body {
         max(24px, env(safe-area-inset-left, 0px));
 }
 
+body.model-viewer-page {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    background: #101820;
+    padding:
+        env(safe-area-inset-top, 0px)
+        env(safe-area-inset-right, 0px)
+        env(safe-area-inset-bottom, 0px)
+        env(safe-area-inset-left, 0px);
+    overflow: hidden;
+}
+
 .back-link {
     width: fit-content;
     color: #9bd8d0;
@@ -62,4 +75,34 @@ h1 {
     border-radius: 18px;
     background: rgb(16 29 37 / 78%);
     color: #c0cbd0;
+}
+
+.sketchfab-embed-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    background: #101820;
+}
+
+.sketchfab-embed-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    flex: 1 1 0;
+    border: 0;
+}
+
+.attribution {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 6px 10px;
+    color: #c0cbd0;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.attribution a {
+    color: #9bd8d0;
 }
