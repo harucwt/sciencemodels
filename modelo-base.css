@@ -23,6 +23,7 @@ body {
 }
 
 body.model-viewer-page {
+    display: flex;
     height: 100vh;
     height: 100dvh;
     min-height: 0;
@@ -35,16 +36,102 @@ body.model-viewer-page {
     overflow: hidden;
 }
 
+.model-navigation {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    min-height: 58px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px clamp(14px, 3vw, 28px);
+    border-bottom: 1px solid rgb(226 242 243 / 14%);
+    background: rgb(16 24 32 / 42%);
+    -webkit-backdrop-filter: blur(12px) saturate(1.3);
+    backdrop-filter: blur(12px) saturate(1.3);
+}
+
 .back-link {
     width: fit-content;
     color: #9bd8d0;
     font-size: 1rem;
+    font-weight: 650;
     text-decoration: none;
 }
 
 .back-link:hover,
 .back-link:focus-visible {
     text-decoration: underline;
+}
+
+.model-menu {
+    position: relative;
+}
+
+.model-menu summary {
+    display: flex;
+    min-height: 40px;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid rgb(226 242 243 / 22%);
+    border-radius: 12px;
+    background: rgb(16 29 37 / 32%);
+    color: #f4f7f8;
+    cursor: pointer;
+    list-style: none;
+}
+
+.model-menu summary::-webkit-details-marker {
+    display: none;
+}
+
+.model-menu summary::after {
+    content: "⌄";
+    color: #9bd8d0;
+    font-size: 1.1rem;
+}
+
+.model-menu[open] summary,
+.model-menu summary:hover,
+.model-menu summary:focus-visible {
+    border-color: rgb(155 216 208 / 60%);
+    outline: none;
+}
+
+.model-menu nav {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    display: grid;
+    width: min(320px, calc(100vw - 32px));
+    max-height: min(70vh, 480px);
+    gap: 4px;
+    overflow-y: auto;
+    padding: 8px;
+    border: 1px solid rgb(226 242 243 / 20%);
+    border-radius: 14px;
+    background: rgb(16 24 32 / 94%);
+    box-shadow: 0 16px 40px rgb(0 0 0 / 35%);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+}
+
+.model-menu nav a {
+    padding: 11px 12px;
+    border-radius: 9px;
+    color: #f4f7f8;
+    line-height: 1.35;
+    text-decoration: none;
+}
+
+.model-menu nav a:hover,
+.model-menu nav a:focus-visible,
+.model-menu nav a[aria-current="page"] {
+    background: rgb(155 216 208 / 14%);
+    color: #baf5e9;
+    outline: none;
 }
 
 main {
@@ -75,6 +162,17 @@ h1 {
     border-radius: 18px;
     background: rgb(16 29 37 / 78%);
     color: #c0cbd0;
+}
+
+.viewer-placeholder {
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 0;
+    padding: 24px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    text-align: center;
 }
 
 .sketchfab-embed-wrapper {

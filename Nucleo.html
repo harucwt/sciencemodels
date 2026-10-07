@@ -6,11 +6,24 @@
     <title>Núcleo</title>
     <link rel="stylesheet" href="./modelo-base.css">
 </head>
-<body>
-    <a class="back-link" href="./index.html">← Volver a Estructuras</a>
-    <main>
-        <h1>Núcleo</h1>
-        <div class="model-placeholder">Espacio listo para integrar el modelo 3D.</div>
-    </main>
+<body class="model-viewer-page">
+    <header class="model-navigation">
+        <a class="back-link" href="./index.html">← Estructuras</a>
+        <details class="model-menu">
+            <summary>Explorar modelos</summary>
+            <nav aria-label="Modelos disponibles">
+                <a href="./Cloroplasto.html">Cloroplasto</a>
+                <a href="./Mitocondria.html">Mitocondria</a>
+                <a href="./Nucleo.html" aria-current="page">Núcleo</a>
+                <a href="./BicapaLipidica.html">Bicapa lipídica en membrana celular</a>
+                <a href="./OrganeloPlanta.html">Organelo de la planta celular</a>
+                <a href="./CelulaAnimal.html">Célula animal</a>
+                <a href="./Procarionte.html">Procarionte</a>
+            </nav>
+        </details>
+    </header>
+    <div class="model-placeholder viewer-placeholder" role="status">
+        Espacio listo para integrar el visor Sketchfab de Núcleo.
+    </div>
 </body>
 </html>
